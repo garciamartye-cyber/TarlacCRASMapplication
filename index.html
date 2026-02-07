@@ -318,11 +318,12 @@ footer {
     <a href="forms/requirements-checklist.pdf" download>📄 Requirements Checklist</a>
   </section>
 
-  <!-- FORM -->
+<!-- FORM -->
 <section>
   <h2 class="section-title">Submit Your Application</h2>
-  <form id="applicationForm">
 
+  <form action="https://script.google.com/macros/s/AKfycbxTZynrDW-IXW6UztCA7lSd3U2ua630e9zPrZu5Hhonom-39XAvU9-v_2LhFEgtySfE/exec" method="POST" enctype="multipart/form-data">
+    
     <div class="form-group">
       <input type="text" name="solemnizingOfficer" placeholder="Full Name of Solemnizing Officer (Ex. Juan A. Dela Cruz)" required>
     </div>
@@ -332,7 +333,7 @@ footer {
     </div>
 
     <div class="form-group">
-      <input type="text" name="religiousHead" placeholder="Name of Religious Head / Founder / President" required>
+      <input type="text" name="religiousHead" placeholder="Name of Religious Head/Founder/President" required>
     </div>
 
     <div class="form-group">
@@ -344,7 +345,7 @@ footer {
     </div>
 
     <div class="form-group">
-      <input type="tel" name="contactNumber" placeholder="Cellphone Number" required pattern="[0-9]{11}">
+      <input type="text" name="contactNumber" placeholder="Cellphone Number" required>
     </div>
 
     <div class="form-group">
@@ -356,13 +357,14 @@ footer {
     </div>
 
     <div class="form-group">
-      <label><strong>Upload Supporting Documents (PDF/JPG/PNG)</strong></label>
-      <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" required>
+      <input type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png" required>
     </div>
 
     <button type="submit">Submit Application</button>
-    <p id="status"></p>
+
   </form>
+</section>
+
 </section>
 
 
@@ -372,69 +374,9 @@ footer {
   © 2026 PSA - Tarlac PSO. All Rights Reserved.
 </footer>
 
-<script>
-const form = document.getElementById("applicationForm");
-const statusText = document.getElementById("status");
-const submitBtn = form.querySelector("button");
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const file = form.file.files[0];
-  if (!file) return;
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Submitting...";
-  statusText.textContent = "Uploading file, please wait...";
-
-  const reader = new FileReader();
-
-  reader.onload = async () => {
-    const base64File = reader.result.split(",")[1];
-
-  const payload = {
- 	 solemnizingOfficer: form.solemnizingOfficer.value.trim(),
- 	 religiousSect: form.religiousSect.value.trim(),
- 	 religiousHead: form.religiousHead.value.trim(),
-  	churchName: form.churchName.value.trim(),
- 	 churchAddress: form.churchAddress.value.trim(),
- 	 contactNumber: form.contactNumber.value.trim(),
- 	 email: form.email.value.trim(),
- 	 message: form.message.value.trim(),
- 	 fileName: file.name,
- 	 mimeType: file.type,
- 	 fileData: base64File
-	};
-	
-
-    try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbw6LQq1oTh5T1t2QPtY6OA0Q8QBby4OplhvIOADPKtDZVDFocG1a1VQpuqEiPruoAs3/exec", {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" }
-      });
-
-      if (res.ok) {
-        statusText.textContent = "✅ Application received! We will contact you shortly.";
-        form.reset();
-      } else {
-        statusText.textContent = "❌ Submission failed. Please try again.";
-      }
-
-    } catch (err) {
-      statusText.textContent = "❌ Network error. Please try again.";
-    }
-
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submit Application";
-  };
-
-  reader.readAsDataURL(file);
-});
-</script>
-
 </body>
 </html>
+
 
 
 
