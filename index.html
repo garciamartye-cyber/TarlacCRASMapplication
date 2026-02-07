@@ -374,8 +374,58 @@ footer {
   © 2026 PSA - Tarlac PSO. All Rights Reserved.
 </footer>
 
+  <script>
+const form = document.querySelector("form");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fileInput = form.querySelector('input[type="file"]');
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Please attach a file.");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = async () => {
+    const base64 = reader.result.split(",")[1];
+
+    const data = {
+      solemnizingOfficer: form.solemnizingOfficer.value,
+      religiousSect: form.religiousSect.value,
+      religiousHead: form.religiousHead.value,
+      churchName: form.churchName.value,
+      churchAddress: form.churchAddress.value,
+      contactNumber: form.contactNumber.value,
+      email: form.email.value,
+      message: form.message.value,
+      fileName: file.name,
+      mimeType: file.type,
+      fileData: base64
+    };
+
+    const res = await fetch("YOUR_WEB_APP_URL_HERE", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    const text = await res.text();
+    alert(text);
+    form.reset();
+  };
+
+  reader.readAsDataURL(file);
+});
+</script>
+
+
 </body>
 </html>
+
 
 
 
