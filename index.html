@@ -340,20 +340,45 @@ footer {
 </footer>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
-    const submitBtn = document.getElementById("submitBtn");
-    const loadingOverlay = document.getElementById("loadingOverlay");
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  const submitBtn = document.getElementById("submitBtn");
+  const loadingOverlay = document.getElementById("loadingOverlay");
 
-    form.addEventListener("submit", function () {
-      if (!form.checkValidity()) return; // HTML5 validation check
+  let submitting = false;
 
-      submitBtn.disabled = true;
-      submitBtn.innerText = "Submitting…";
-      loadingOverlay.style.display = "flex";
-    });
+  // SHOW spinner on valid submit
+  form.addEventListener("submit", function () {
+    if (!form.checkValidity()) return;
+
+    submitting = true;
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Submitting…";
+    loadingOverlay.style.display = "flex";
   });
+
+  // HIDE spinner if user presses BACK button
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted || submitting) {
+      loadingOverlay.style.display = "none";
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Submit Application";
+      submitting = false;
+    }
+  });
+
+  // SAFETY: hide spinner if page unloads unexpectedly
+  window.addEventListener("pagehide", function () {
+    loadingOverlay.style.display = "none";
+  });
+
+  // EXTRA safety fallback
+  window.addEventListener("beforeunload", function () {
+    loadingOverlay.style.display = "none";
+  });
+});
 </script>
+
 
   <div id="loadingOverlay">
   <div class="loading-card">
@@ -370,6 +395,7 @@ footer {
 
 </body>
 </html>
+
 
 
 
