@@ -225,6 +225,50 @@ footer {
   to { transform: rotate(360deg); }
 }
 
+  /* TOGGLE BUTTON */
+.toggle-btn {
+  width: 100%;
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+.toggle-btn:hover {
+  background: #155bb0;
+}
+
+/* COLLAPSIBLE PANEL */
+.forms-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  margin-top: 15px;
+}
+
+.forms-panel a {
+  display: block;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  background: var(--light-blue);
+  border-left: 5px solid var(--blue);
+  text-decoration: none;
+  color: var(--dark-blue);
+  border-radius: 8px;
+}
+
+.forms-panel a:hover {
+  background: #dbe9ff;
+}
+
+
   
 </style>
 </head>
@@ -282,11 +326,26 @@ footer {
   </section>
 
   <!-- DOWNLOAD FORMS -->
-  <section class="download">
-    <h2 class="section-title">Download Forms</h2>
+<section class="download">
+  <h2 class="section-title">Application Forms</h2>
+
+  <button
+    type="button"
+    class="toggle-btn"
+    onclick="toggleForms()"
+    aria-expanded="false"
+  >
+    📂 Application Forms & Templates
+    <span id="toggleIcon">+</span>
+  </button>
+
+  <div id="formsPanel" class="forms-panel">
     <a href="forms/application-form.pdf" download>📄 Application Form</a>
     <a href="forms/requirements-checklist.pdf" download>📄 Requirements Checklist</a>
-  </section>
+    <a href="forms/authorization-template.pdf" download>📄 Authorization Template</a>
+  </div>
+</section>
+
 
   <!-- SUBMISSION FORM -->
   <section>
@@ -395,11 +454,29 @@ footer {
     submitBtn.disabled = false;
     submitBtn.innerText = "Submit Application";
   });
+
+  function toggleForms() {
+    const panel = document.getElementById("formsPanel");
+    const icon = document.getElementById("toggleIcon");
+    const button = document.querySelector(".toggle-btn");
+
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+      icon.textContent = "+";
+      button.setAttribute("aria-expanded", "false");
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+      icon.textContent = "−";
+      button.setAttribute("aria-expanded", "true");
+    }
+  }
+  
 </script>
 
 
 </body>
 </html>
+
 
 
 
