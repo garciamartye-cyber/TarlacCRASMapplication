@@ -171,19 +171,19 @@ footer {
 
 /* FULLSCREEN LOADING OVERLAY */
 #loadingOverlay {
-  display: none;
+  display: none; /* 🔴 hidden by default */
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(10, 37, 64, 0.65); /* PSA dark blue overlay */
+  background: rgba(10, 37, 64, 0.65); /* PSA dark blue */
   z-index: 9999;
 
-  display: flex;
   justify-content: center;
   align-items: center;
 }
+
 
 /* LOADING CARD */
 .loading-card {
@@ -339,7 +339,7 @@ footer {
     </div>
   </div>
 </div>
-      <button type="submit" id="submitBtn">Submit Application</button>
+      <button id="submitBtn" type="submit">Submit Application</button>
 
     </form>
   </section>
@@ -351,11 +351,30 @@ footer {
 </footer>
 
 <script>
-  const form = document.querySelector("form");
-  const submitBtn = document.getElementById("submitBtn");
-  const loadingOverlay = document.getElementById("loadingOverlay");
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("submitBtn");
+    const loadingOverlay = document.getElementById("loadingOverlay");
 
-  form.addEventListener("submit", function () {
+    form.addEventListener("submit", function () {
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Submitting…";
+    loadingOverlay.style.display = "flex"; 
+  });
+
+     const form = document.querySelector("form");
+    const loadingOverlay = document.getElementById("loadingOverlay");
+
+    form.addEventListener("submit", function (e) {
+    if (!form.checkValidity()) return;
+    loadingOverlay.style.display = "flex";
+   });
+  
+  
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("submitBtn");
+    const loadingOverlay = document.getElementById("loadingOverlay");
+
+    form.addEventListener("submit", function () {
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting…";
     loadingOverlay.style.display = "flex";
@@ -365,6 +384,7 @@ footer {
 
 </body>
 </html>
+
 
 
 
