@@ -292,6 +292,7 @@ footer {
   <section>
     <h2 class="section-title">Submit Your Application</h2>
     <form
+        id="crasmForm"
         action="https://script.google.com/macros/s/AKfycbxBu7IWKj3bXQBn45VOn5_7e6bVDKfTGnlJHaxDDehrEkj1BmiCzNRSYjwhOur6AVL5/exec"
         method="POST">
       
@@ -352,50 +353,37 @@ footer {
 </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form");
+  const form = document.getElementById("crasmForm");
   const submitBtn = document.getElementById("submitBtn");
   const loadingOverlay = document.getElementById("loadingOverlay");
 
-  let submitting = false;
-  let spinnerStart = 0;
-  const MIN_SPINNER_TIME = 1200; // milliseconds
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); // ⛔ stop instant navigation
 
-  form.addEventListener("submit", function () {
-    if (!form.checkValidity()) return;
+    // Validate first
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
 
-    submitting = true;
-    spinnerStart = Date.now();
-
+    // Show spinner
+    loadingOverlay.style.display = "flex";
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting…";
-    loadingOverlay.style.display = "flex";
+
+    // ⏱ Give spinner time to render
+    setTimeout(() => {
+      form.submit(); // ✅ now submit for real
+    }, 600); // 0.6 second delay (adjustable)
   });
 
-  // Handle back navigation / restore
-  window.addEventListener("pageshow", function (event) {
-    const elapsed = Date.now() - spinnerStart;
-    const remaining = MIN_SPINNER_TIME - elapsed;
-
-    if (submitting) {
-      setTimeout(() => {
-        loadingOverlay.style.display = "none";
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Submit Application";
-        submitting = false;
-      }, Math.max(0, remaining));
-    }
+  // 🟢 Hide spinner if user navigates back
+  window.addEventListener("pageshow", function () {
+    loadingOverlay.style.display = "none";
+    submitBtn.disabled = false;
+    submitBtn.innerText = "Submit Application";
   });
-
-  // Safety cleanup
-  ["pagehide", "beforeunload"].forEach(evt =>
-    window.addEventListener(evt, () => {
-      loadingOverlay.style.display = "none";
-    })
-  );
-});
 </script>
-
 
   <div id="loadingOverlay">
   <div class="loading-card">
@@ -412,6 +400,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
