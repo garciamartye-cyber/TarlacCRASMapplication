@@ -168,6 +168,38 @@ footer {
   .section-title { font-size: 1.6rem; }
   .hero-logos img { height: 55px; }
 }
+
+/* PSA LOGO LOADING SPINNER */
+#loadingOverlay {
+  display: none;
+  text-align: center;
+  margin-top: 25px;
+}
+
+.psa-spinner {
+  width: 90px;
+  height: 90px;
+  margin: auto;
+  animation: spin 1.2s linear infinite;
+}
+
+.psa-spinner img {
+  width: 100%;
+  height: auto;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 12px;
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 1rem;
+}
+  
 </style>
 </head>
 <body>
@@ -269,9 +301,18 @@ footer {
           By submitting this form, you consent to the collection and processing of
           your personal data in accordance with the Data Privacy Act of 2012.
       </p>
+      
+    <div id="loadingOverlay">
+      <div class="psa-spinner">
+    <img src="images/psa-logo.png" alt="PSA Logo Loading">
+    </div>
+    <div class="loading-text">
+        Submitting your CRASM application, please wait…
+    </div>
+  </div>
 
+      <button type="submit" id="submitBtn">Submit Application</button>
 
-      <button type="submit">Submit Application</button>
     </form>
   </section>
 
@@ -281,8 +322,21 @@ footer {
   © 2026 PSA - Tarlac PSO. All Rights Reserved.
 </footer>
 
+  <script>
+  const form = document.querySelector("form");
+  const submitBtn = document.getElementById("submitBtn");
+  const loadingOverlay = document.getElementById("loadingOverlay");
+
+  form.addEventListener("submit", function () {
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Submitting…";
+    loadingOverlay.style.display = "block";
+  });
+</script>
+
 </body>
 </html>
+
 
 
 
