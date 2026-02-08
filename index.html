@@ -315,27 +315,7 @@ footer {
   transform: rotate(-135deg);
 }
 
-.forms-panel {
-  display: none;
-  margin-top: 10px;
-}
-
-.forms-panel a {
-  display: block;
-  padding: 14px 18px;
-  margin-bottom: 10px;
-  background: #f4f7fb;
-  border-radius: 6px;
-  text-decoration: none;
-  color: var(--dark-blue);
-  transition: background 0.2s ease;
-}
-
-.forms-panel a:hover {
-  background: #e2ebff;
-}
-
-  
+ 
 </style>
 </head>
 <body>
@@ -575,31 +555,13 @@ footer {
     }
   });
 
-  const toggleBtn = document.getElementById("formsToggle");
-  const panel = document.getElementById("formsPanel");
-  const chevron = document.getElementById("chevron");
-
-  toggleBtn.addEventListener("click", function (e) {
-    e.stopPropagation();
-
-    const isOpen = panel.style.display === "block";
-    panel.style.display = isOpen ? "none" : "block";
-    chevron.classList.toggle("open", !isOpen);
-  });
-
-  // Auto-collapse when clicking outside
-  document.addEventListener("click", function (e) {
-    if (!toggleBtn.contains(e.target) && !panel.contains(e.target)) {
-      panel.style.display = "none";
-      chevron.classList.remove("open");
-    }
-  });
   
 </script>
 
 
 </body>
 </html>
+
 
 
 
