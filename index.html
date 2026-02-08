@@ -169,13 +169,32 @@ footer {
   .hero-logos img { height: 55px; }
 }
 
-/* PSA LOGO LOADING SPINNER */
+/* FULLSCREEN LOADING OVERLAY */
 #loadingOverlay {
   display: none;
-  text-align: center;
-  margin-top: 25px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 37, 64, 0.65); /* PSA dark blue overlay */
+  z-index: 9999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* LOADING CARD */
+.loading-card {
+  background: white;
+  padding: 35px 45px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+/* PSA LOGO SPINNER */
 .psa-spinner {
   width: 90px;
   height: 90px;
@@ -188,17 +207,24 @@ footer {
   height: auto;
 }
 
+.loading-text {
+  margin-top: 18px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+}
+
+.loading-subtext {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.loading-text {
-  margin-top: 12px;
-  color: var(--blue);
-  font-weight: 600;
-  font-size: 1rem;
-}
   
 </style>
 </head>
@@ -302,15 +328,17 @@ footer {
           your personal data in accordance with the Data Privacy Act of 2012.
       </p>
       
-    <div id="loadingOverlay">
-      <div class="psa-spinner">
-    <img src="images/psa-logo.png" alt="PSA Logo Loading">
+   <div id="loadingOverlay">
+  <div class="loading-card">
+    <div class="psa-spinner">
+      <img src="images/psa-logo.png" alt="PSA Loading">
     </div>
-    <div class="loading-text">
-        Submitting your CRASM application, please wait…
+    <div class="loading-text">Please wait…</div>
+    <div class="loading-subtext">
+      Submitting your CRASM application
     </div>
   </div>
-
+</div>
       <button type="submit" id="submitBtn">Submit Application</button>
 
     </form>
@@ -322,7 +350,7 @@ footer {
   © 2026 PSA - Tarlac PSO. All Rights Reserved.
 </footer>
 
-  <script>
+<script>
   const form = document.querySelector("form");
   const submitBtn = document.getElementById("submitBtn");
   const loadingOverlay = document.getElementById("loadingOverlay");
@@ -330,12 +358,14 @@ footer {
   form.addEventListener("submit", function () {
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting…";
-    loadingOverlay.style.display = "block";
+    loadingOverlay.style.display = "flex";
   });
 </script>
 
+
 </body>
 </html>
+
 
 
 
