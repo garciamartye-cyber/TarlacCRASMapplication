@@ -328,18 +328,7 @@ footer {
           your personal data in accordance with the Data Privacy Act of 2012.
       </p>
       
-   <div id="loadingOverlay">
-  <div class="loading-card">
-    <div class="psa-spinner">
-      <img src="images/psa-logo.png" alt="PSA Loading">
-    </div>
-    <div class="loading-text">Please wait…</div>
-    <div class="loading-subtext">
-      Submitting your CRASM application
-    </div>
-  </div>
-</div>
-      <button id="submitBtn" type="submit">Submit Application</button>
+        <button id="submitBtn" type="submit">Submit Application</button>
 
     </form>
   </section>
@@ -351,39 +340,37 @@ footer {
 </footer>
 
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const submitBtn = document.getElementById("submitBtn");
     const loadingOverlay = document.getElementById("loadingOverlay");
 
     form.addEventListener("submit", function () {
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Submitting…";
-    loadingOverlay.style.display = "flex"; 
-  });
+      if (!form.checkValidity()) return; // HTML5 validation check
 
-     const form = document.querySelector("form");
-    const loadingOverlay = document.getElementById("loadingOverlay");
-
-    form.addEventListener("submit", function (e) {
-    if (!form.checkValidity()) return;
-    loadingOverlay.style.display = "flex";
-   });
-  
-  
-    const form = document.querySelector("form");
-    const submitBtn = document.getElementById("submitBtn");
-    const loadingOverlay = document.getElementById("loadingOverlay");
-
-    form.addEventListener("submit", function () {
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Submitting…";
-    loadingOverlay.style.display = "flex";
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Submitting…";
+      loadingOverlay.style.display = "flex";
+    });
   });
 </script>
+
+  <div id="loadingOverlay">
+  <div class="loading-card">
+    <div class="psa-spinner">
+      <img src="images/psa-logo.png" alt="PSA Loading">
+    </div>
+    <div class="loading-text">Please wait…</div>
+    <div class="loading-subtext">
+      Submitting your CRASM application
+    </div>
+  </div>
+</div>
 
 
 </body>
 </html>
+
 
 
 
