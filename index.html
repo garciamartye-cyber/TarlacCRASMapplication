@@ -311,7 +311,16 @@ footer {
         <input type="text" name="churchAddress" placeholder="Address of Church Assignment" required>
       </div>
       <div class="form-group">
-        <input type="text" name="contactNumber" placeholder="Cellphone Number" required>
+        <input
+          type="tel"
+          name="contactNumber"
+          placeholder="Cellphone Number"
+          required
+          inputmode="numeric"
+          pattern="[0-9]{10,11}"
+          maxlength="11"
+          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+          />
       </div>
       <div class="form-group">
         <input type="email" name="email" placeholder="Email Address" required>
@@ -346,36 +355,41 @@ document.addEventListener("DOMContentLoaded", function () {
   const loadingOverlay = document.getElementById("loadingOverlay");
 
   let submitting = false;
+  let spinnerStart = 0;
+  const MIN_SPINNER_TIME = 1200; // milliseconds
 
-  // SHOW spinner on valid submit
   form.addEventListener("submit", function () {
     if (!form.checkValidity()) return;
 
     submitting = true;
+    spinnerStart = Date.now();
+
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting…";
     loadingOverlay.style.display = "flex";
   });
 
-  // HIDE spinner if user presses BACK button
+  // Handle back navigation / restore
   window.addEventListener("pageshow", function (event) {
-    if (event.persisted || submitting) {
-      loadingOverlay.style.display = "none";
-      submitBtn.disabled = false;
-      submitBtn.innerText = "Submit Application";
-      submitting = false;
+    const elapsed = Date.now() - spinnerStart;
+    const remaining = MIN_SPINNER_TIME - elapsed;
+
+    if (submitting) {
+      setTimeout(() => {
+        loadingOverlay.style.display = "none";
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Submit Application";
+        submitting = false;
+      }, Math.max(0, remaining));
     }
   });
 
-  // SAFETY: hide spinner if page unloads unexpectedly
-  window.addEventListener("pagehide", function () {
-    loadingOverlay.style.display = "none";
-  });
-
-  // EXTRA safety fallback
-  window.addEventListener("beforeunload", function () {
-    loadingOverlay.style.display = "none";
-  });
+  // Safety cleanup
+  ["pagehide", "beforeunload"].forEach(evt =>
+    window.addEventListener(evt, () => {
+      loadingOverlay.style.display = "none";
+    })
+  );
 });
 </script>
 
@@ -395,6 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
+
 
 
 
