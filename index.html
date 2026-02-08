@@ -284,6 +284,57 @@ footer {
 .chevron.rotate {
   transform: rotate(-135deg);
 }
+
+  .download-toggle {
+  width: 100%;
+  background: var(--light-blue);
+  border: none;
+  border-left: 5px solid var(--blue);
+  padding: 16px 20px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chevron {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--dark-blue);
+  border-bottom: 2px solid var(--dark-blue);
+  transform: rotate(45deg);
+  transition: transform 0.25s ease;
+}
+
+.chevron.open {
+  transform: rotate(-135deg);
+}
+
+.forms-panel {
+  display: none;
+  margin-top: 10px;
+}
+
+.forms-panel a {
+  display: block;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  background: #f4f7fb;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--dark-blue);
+  transition: background 0.2s ease;
+}
+
+.forms-panel a:hover {
+  background: #e2ebff;
+}
+
   
 </style>
 </head>
@@ -355,12 +406,24 @@ footer {
 </button>
 
 
-  <div id="formsPanel" class="forms-panel">
-    <a href="forms/requirements-checklist.pdf" download>📄 Requirements Checklist</a>
-    <a href="forms/application-form.pdf" download>📄 SO Application Form</a>
-    <a href="forms/authorization-template.pdf" download>📄 Endorsement Letter Template</a>
-    <a href="forms/authorization-template.pdf" download>📄 Appointment Letter Template</a>
-  </div>
+ <div id="formsPanel" class="forms-panel">
+  <a href="https://raw.githubusercontent.com/USERNAME/REPO/main/downloadable%20forms/requirements-checklist.pdf" target="_blank">
+    📄 Requirements Checklist
+  </a>
+
+  <a href="https://raw.githubusercontent.com/garciamartye-cyber/TarlacCRASMapplication/main/downloadable%20forms/SO%20APPLICATION%20FORM%201_Fillable%20Form.pdf" target="_blank">
+    📄 SO Application Form
+  </a>
+
+  <a href="https://raw.githubusercontent.com/garciamartye-cyber/TarlacCRASMapplication/main/downloadable%20forms/SAMPLE%20-%20Endorsement%20Letter.pdf" target="_blank">
+    📄 Endorsement Letter Template
+  </a>
+
+  <a href="https://raw.githubusercontent.com/garciamartye-cyber/TarlacCRASMapplication/main/downloadable%20forms/SAMPLE%20-%20Appointment%20Letter.pdf" target="_blank">
+    📄 Appointment Letter Template
+  </a>
+</div>
+
 </section>
 
 
@@ -511,12 +574,33 @@ footer {
       closeForms();
     }
   });
+
+  const toggleBtn = document.getElementById("formsToggle");
+  const panel = document.getElementById("formsPanel");
+  const chevron = document.getElementById("chevron");
+
+  toggleBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+
+    const isOpen = panel.style.display === "block";
+    panel.style.display = isOpen ? "none" : "block";
+    chevron.classList.toggle("open", !isOpen);
+  });
+
+  // Auto-collapse when clicking outside
+  document.addEventListener("click", function (e) {
+    if (!toggleBtn.contains(e.target) && !panel.contains(e.target)) {
+      panel.style.display = "none";
+      chevron.classList.remove("open");
+    }
+  });
   
 </script>
 
 
 </body>
 </html>
+
 
 
 
