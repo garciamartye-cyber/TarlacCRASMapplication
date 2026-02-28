@@ -505,6 +505,16 @@ footer {
   border-color: #1f6fd2;
 }
 
+  /* Grey placeholder style */
+select.placeholder {
+  color: #9e9e9e;
+}
+
+/* Normal selected value */
+select:not(.placeholder) {
+  color: #000;
+}
+
 </style>
 
 <link
@@ -819,12 +829,29 @@ footer {
   }
 });
 
+ document.addEventListener("DOMContentLoaded", function () {
+  const typeSelect = document.getElementById("typeOfApplication");
+
+  if (typeSelect.value === "") {
+    typeSelect.classList.add("placeholder");
+  }
+
+  typeSelect.addEventListener("change", function () {
+    if (this.value === "") {
+      this.classList.add("placeholder");
+    } else {
+      this.classList.remove("placeholder");
+    }
+  });
+});
+
   
 </script>
 
 
 </body>
 </html>
+
 
 
 
